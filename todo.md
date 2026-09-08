@@ -1,0 +1,2 @@
+- commit strategy
+- reference as wiki element: long books, large files go here that would be expensive to summarize but yet should be available to agent to search upon queries, and generate syntesis from. ie isa95 spec.

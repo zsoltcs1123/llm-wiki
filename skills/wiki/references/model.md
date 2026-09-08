@@ -1,0 +1,81 @@
+# Wiki Model
+
+Each wiki is a focused knowledge base with its own conceptual center of gravity. Use the local `README.md`, `HOME.md`, and content itself to understand that wiki's domain.
+
+A wiki may live at the repo root, under `wikis/<slug>/`, or at another path (for example `wiki/` as a git submodule beside a codebase). The slug used in commits and `.wiki-root.yaml` identifies the wiki regardless of path.
+
+## Two Layers
+
+### `raw/`
+
+Immutable or mostly-immutable input material.
+
+The raw layer has two distinct input classes:
+
+- `raw/sources/`: verbatim source capture and local source assets tied to an exact external source
+- `raw/notes/`: non-verbatim raw material such as human or LLM-authored source reports, extracted repo analyses, and original notes that still belong below the maintained wiki
+
+`raw/sources/` must remain verbatim source capture only: do not mix in LLM summaries, normalization, restructuring, or interpretation there.
+
+Do not rewrite `raw/` as part of normal wiki maintenance. Read from it. Add to it when ingesting new material. Promote from it into `wiki/` when useful.
+
+### `wiki/`
+
+Maintained knowledge base owned by the LLM.
+
+- `wiki/sources/{author}/`: compiled source pages, grouped by author to mirror `raw/sources/`
+- `wiki/sources/{author}/quick/`: compact quick summaries of source pages for that author
+- `wiki/concepts/`: durable ideas that accumulate evidence across sources
+- `wiki/entities/`: recurring named actors, tools, companies, frameworks, people
+- `wiki/syntheses/`: cross-source analyses, comparisons, reports, durable query outputs
+- `wiki/index.md`: global catalog of wiki content
+- `wiki/log.md`: append-only operational history
+
+The wiki root is organized by page role (`concepts/`, `entities/`, `syntheses/`). Source pages are author-nested under `wiki/sources/{author}/` to mirror `raw/sources/` and keep provenance browsable. Use the author folder name from `raw/sources/{author}/` when it exists; otherwise use the filename prefix before the first `--`. When the raw folder and filename prefix differ (for example `mem0/` vs `mem0ai--`), prefer the raw folder name.
+
+## Page Roles
+
+Use a light content schema:
+
+- `source`: one source distilled into a durable page
+- `concept`: a recurring idea or thesis that spans sources
+- `entity`: a named thing worth tracking across pages
+- `synthesis`: cross-source analysis, comparison, or filed answer
+
+## Frontmatter
+
+Use minimal frontmatter on wiki pages:
+
+```yaml
+type: source | concept | entity | synthesis
+status: draft | maintained
+updated: YYYY-MM-DD
+source_org: optional
+tags: [optional]
+```
+
+For `concept` pages, do not generate an `Implications for This Repo` section.
+
+## Writing Style for Concept and Synthesis Pages
+
+Concept and synthesis pages are read by humans. Optimize for that:
+
+- **Readability first.** Good flow and a logical structure that reads as a narrative, not a pile of sections.
+- **No unnecessary verbosity.** Clean, focused language. Cut filler, hedging, and throat-clearing.
+- **Specific, focused, complete.** Convey maximum meaning in the fewest words. Prefer concrete claims over vague ones.
+- **No redundancy.** Do not repeat the same information in multiple places on the page. State it once, in the place it belongs.
+- **High information density.** State a claim once, then build on it with additional detail and examples.
+
+## Working Rules
+
+- Prefer reading `wiki/index.md` before deep-diving into a wiki.
+- Treat `wiki/` as the maintained artifact.
+- During normal maintenance, do not edit files in `raw/`.
+- When a wiki-changing operation completes, update that wiki's `wiki/index.md` and append an entry to that wiki's `wiki/log.md`.
+- When a wiki-changing workflow completes and files changed, create a git commit for that wiki's changes.
+- Keep the schema light. Do not invent rigid ontologies or heavy metadata unless there is a clear need.
+- Prefer role-based organization and links over extra folders.
+- During ingest, explicitly surface contradictions, stale claims, overlap, and structural issues exposed by new material instead of silently merging them away.
+- Do not create or update `wiki/syntheses/` unless the user explicitly asks for a synthesis, comparison, assessment, or other durable filed answer.
+- Deletion is a wiki operation, not a filesystem operation. Use the Discard workflow rather than removing files and relying on a later lint pass to reconcile.
+- Do not promote a note into `wiki/sources/` unless the underlying raw note is preserved in `raw/notes/` (or the source is captured verbatim in `raw/sources/`). Provenance must remain reachable from the wiki page.
