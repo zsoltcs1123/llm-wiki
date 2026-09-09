@@ -11,7 +11,7 @@ Based on [Karpathy's LLM Wiki gist](https://gist.github.com/karpathy/442a6bf5559
 - [WIKI-DESIGN-PRINCIPLES.md](WIKI-DESIGN-PRINCIPLES.md): boundary, scope, and growth rules
 - [WIKI-ROADMAP.md](WIKI-ROADMAP.md): system development priorities
 - [skills/wiki/SKILL.md](skills/wiki/SKILL.md): operate layer (ingest, query, lint, discard, init)
-- [_scaffold/](_scaffold/): canonical wiki skeleton used by `/wiki init`
+- [\_scaffold/](_scaffold/): canonical wiki skeleton used by `/wiki init`
 
 ## Skills
 
@@ -26,3 +26,39 @@ If you change the wiki directory structure, update:
 1. `_scaffold/`
 2. `skills/wiki/references/scaffold/` (copy)
 3. `skills/wiki/references/commands/init.md` if init steps change
+
+## Commits
+
+Lightweight [Conventional Commits](https://www.conventionalcommits.org/) for development in this repo. Wiki content commits in host repos use a separate convention (see below).
+
+### Format
+
+```
+<type>(<scope>): <summary>
+```
+
+- Imperative mood, lowercase subject, no trailing period.
+- Keep the subject under ~72 characters.
+- One logical change per commit. No body.
+
+### Types
+
+| Type       | Use for                             |
+| ---------- | ----------------------------------- |
+| `feat`     | New capability or behavior          |
+| `fix`      | Bug fix                             |
+| `docs`     | Documentation only                  |
+| `refactor` | Restructure without behavior change |
+| `chore`    | Housekeeping, sync, version bumps   |
+
+### Scopes
+
+Optional. Prefer a scope when the change is clearly localized.
+
+| Scope      | Path                                                       |
+| ---------- | ---------------------------------------------------------- |
+| `wiki`     | wiki system development                                    |
+| `scaffold` | `_scaffold/` and synced `skills/wiki/references/scaffold/` |
+| `skills`   | changes to skills                                          |
+
+Omit scope for repo-wide or ambiguous changes.
