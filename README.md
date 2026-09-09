@@ -73,6 +73,14 @@ llm-wiki/
 └── _scaffold/        # canonical skeleton copied by wiki init
 ```
 
+## Smoke Tests
+
+```bash
+./tests/smoke/run.sh
+```
+
+Validates wiki root detection, resolve-wiki priority, and init scaffold behavior. See [tests/smoke/README.md](tests/smoke/README.md).
+
 ## Development Docs
 
 - [WIKI-DESIGN-PRINCIPLES.md](WIKI-DESIGN-PRINCIPLES.md) — boundary, scope, growth rules

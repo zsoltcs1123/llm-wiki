@@ -19,6 +19,16 @@ Install into a host repo: `./skills/install.sh <target>`.
 
 When changing operate semantics, update `skills/wiki/` and bump `metadata.version` in `SKILL.md`. Sync scaffold changes to both `_scaffold/` and `skills/wiki/references/scaffold/`.
 
+## Smoke Tests
+
+After changing resolve rules, init, or scaffold layout:
+
+```bash
+./tests/smoke/run.sh
+```
+
+See [tests/smoke/README.md](tests/smoke/README.md).
+
 ## Scaffold Changes
 
 If you change the wiki directory structure, update:
