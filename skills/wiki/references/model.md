@@ -41,7 +41,7 @@ Maintained knowledge base owned by the LLM.
 - `wiki/concepts/`: durable ideas that accumulate evidence across sources
 - `wiki/entities/`: recurring named actors, tools, companies, frameworks, people
 - `wiki/syntheses/`: cross-source analyses, comparisons, reports, durable query outputs
-- `wiki/index.md`: global catalog of wiki content
+- `wiki/index.md`: curated catalog of concept, entity, synthesis, and reference-corpus pages
 - `wiki/log.md`: append-only operational history
 
 The wiki root is organized by page role (`concepts/`, `entities/`, `syntheses/`). Source pages are author-nested under `wiki/sources/{author}/` to mirror `raw/sources/` and keep provenance browsable. Use the author folder name from `raw/sources/{author}/` when it exists; otherwise use the filename prefix before the first `--`. When the raw folder and filename prefix differ (for example `mem0/` vs `mem0ai--`), prefer the raw folder name.
@@ -81,10 +81,11 @@ Concept and synthesis pages are read by humans. Optimize for that:
 
 ## Working Rules
 
-- Prefer reading `wiki/index.md` before deep-diving into a wiki.
+- Prefer starting from `HOME.md`, concept hubs, or `wiki/index.md` before deep-diving into a wiki.
 - Treat `wiki/` as the maintained artifact.
 - During normal maintenance, do not edit files in `raw/`.
-- When a wiki-changing operation completes, update that wiki's `wiki/index.md` and append an entry to that wiki's `wiki/log.md`.
+- When a wiki-changing operation completes, append an entry to that wiki's `wiki/log.md`.
+- Update `wiki/index.md` only when concept, entity, synthesis, or reference-corpus pages change. Do not list routine source pages in `wiki/index.md`; they live under `wiki/sources/{author}/` and are reachable via links, search, and concept hubs.
 - When a wiki-changing workflow completes and files changed, create a git commit for that wiki's changes.
 - Keep the schema light. Do not invent rigid ontologies or heavy metadata unless there is a clear need.
 - Prefer role-based organization and links over extra folders.

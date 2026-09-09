@@ -1,7 +1,7 @@
 # Pre-scale (tackle one by one)
 
 1. ~~**resolve-wiki**~~ — smoke suite at `tests/smoke/` (fixtures + `run.sh`); run after resolve/init/scaffold changes
-2. **index.md policy** — decide index shape before 3–4 wikis (full blurbs vs slim links vs semi-auto from frontmatter; query entry via concepts/hubs?)
+2. ~~**index.md policy**~~ — hub-only index (concepts/entities/syntheses/reference); skill v1.2; agentic-engineering migrated
 3. **Obsidian scaffold** — standardize vault setup in scaffold `OBSIDIAN.md` (vault-per-wiki vs monorepo workspace); pull from learning-repo pi workflow
 4. **`.wiki-root.yaml` backfill** — add marker to agentic-engineering and any pre-init wikis
 5. **skill sync discipline** — bump consumer hosts to v1.1+; `install.sh` on change; consider version check in install

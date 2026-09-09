@@ -9,7 +9,7 @@ When new material is added to `raw/`, branch on input path. Read [model.md](../m
 3. Identify contradictions, stale claims, overlap, or structural issues the new source exposes in existing `wiki/sources/`, `wiki/concepts/`, and `wiki/entities/`.
 4. Update affected maintained pages to reflect disagreement, uncertainty, supersession, duplication, or unresolved tension when the new source changes the current understanding.
 5. Update `wiki/syntheses/` only if the user explicitly asks for synthesis work and the new source materially changes an existing synthesis.
-6. Update `wiki/index.md`.
+6. Update `wiki/index.md` only if this ingest created or changed a concept, entity, synthesis, or reference-corpus page.
 7. Append an ingest entry to `wiki/log.md`, noting contradiction or issue handling when it occurred.
 8. Commit the changes if files changed, using `wiki(<wiki-slug>) ingest: <summary>` per [commits.md](../commits.md).
 

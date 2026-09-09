@@ -21,7 +21,8 @@ _Add links to main entity pages as the wiki grows._
 
 - Start from a hub page, not from the raw file tree.
 - Use backlinks and local graph from concept pages.
-- Use [wiki/index.md](./wiki/index.md) as the catalog when you need broad navigation.
+- Use [wiki/index.md](./wiki/index.md) for the curated concept/entity/synthesis catalog.
+- Browse `wiki/sources/{author}/` or the file explorer when you need source inventory.
 - Use [wiki/log.md](./wiki/log.md) when you want to understand recent structural changes.
 
 ## Operations

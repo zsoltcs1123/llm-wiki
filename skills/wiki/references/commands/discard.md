@@ -17,7 +17,7 @@ When wiki content should be removed:
    - For `out-of-scope`: remove links and any claims that only existed because of this page.
    - For `retract-source`: revisit every page that cited the retracted source and remove or qualify claims that depended on it. Do not silently leave orphaned claims standing.
 5. Remove the file(s).
-6. Update `wiki/index.md`.
+6. Update `wiki/index.md` if the discarded page was listed there (concept, entity, synthesis, or reference corpus).
 7. Append a `log.md` entry with classification, scope, reason, and the surviving page (if any).
 8. Commit the changes if files changed, using `wiki(<wiki-slug>) discard: <summary>` per [commits.md](../commits.md).
 

@@ -1,10 +1,6 @@
 # Wiki Index
 
-Catalog of maintained wiki pages. Start here before drilling into individual files.
-
-## Sources
-
-_No source pages yet._
+Curated catalog of load-bearing wiki pages. Start from [HOME.md](../HOME.md) or concept hubs; use author folders under `wiki/sources/` for source inventory.
 
 ## Concepts
 

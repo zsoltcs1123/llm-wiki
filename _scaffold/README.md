@@ -4,7 +4,7 @@
 
 ## Start Here
 
-1. Read [wiki/index.md](./wiki/index.md)
+1. Start from [HOME.md](./HOME.md) or [wiki/index.md](./wiki/index.md)
 2. Open the most relevant `concept` or `synthesis`
 3. Drop into `source` pages for detail or provenance
 4. Check [wiki/log.md](./wiki/log.md) for recent changes
