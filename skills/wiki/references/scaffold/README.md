@@ -13,6 +13,7 @@
 
 - `sources/{author}/`: one-source summaries, grouped by author (mirrors `raw/sources/`)
 - `sources/{author}/quick/`: compressed source summaries for that author
+- `sources/reference/`: lightweight stubs for large corpora in `raw/reference/`
 - `concepts/`: recurring ideas across sources
 - `entities/`: recurring named actors, companies, tools, people
 - `syntheses/`: comparisons, frameworks, assessments, filed answers
@@ -30,6 +31,9 @@ Inside `raw/`, keep the distinction sharp:
 
 - `raw/sources/` = verbatim captures of exact sources
 - `raw/notes/` = non-verbatim raw material such as repo reports, extracted analyses, and your own notes
+- `raw/reference/` = large verbatim corpora kept for grep-first search on demand
+
+For reference corpora, ingest creates a stub and index entry only. Full promotion requires an explicit request.
 
 You can also run `/wiki lint` when you want the graph tightened up without adding new source material.
 

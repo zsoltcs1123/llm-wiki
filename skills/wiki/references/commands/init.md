@@ -57,4 +57,5 @@ Slug from `--slug` or the target directory name.
 
 - Open the wiki directory as an Obsidian vault (see `OBSIDIAN.md`).
 - Install wiki skills if not already present: `llm-wiki/skills/install.sh .`
-- Add source material to `raw/`, then run `/wiki ingest`.
+- Add normal source material to `raw/sources/` or `raw/notes/`, then run `/wiki ingest`.
+- Add large verbatim corpora to `raw/reference/{corpus-slug}/`, then run `/wiki ingest` for stub cataloging.

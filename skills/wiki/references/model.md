@@ -10,14 +10,26 @@ A wiki may live at the repo root, under `wikis/<slug>/`, or at another path (for
 
 Immutable or mostly-immutable input material.
 
-The raw layer has two distinct input classes:
+The raw layer has three distinct input classes:
 
 - `raw/sources/`: verbatim source capture and local source assets tied to an exact external source
 - `raw/notes/`: non-verbatim raw material such as human or LLM-authored source reports, extracted repo analyses, and original notes that still belong below the maintained wiki
+- `raw/reference/`: large verbatim corpora (specifications, standards, long books) that are expensive to summarize but should remain searchable on demand
 
-`raw/sources/` must remain verbatim source capture only: do not mix in LLM summaries, normalization, restructuring, or interpretation there.
+`raw/sources/` and `raw/reference/` must remain verbatim capture only: do not mix in LLM summaries, normalization, restructuring, or interpretation there.
 
 Do not rewrite `raw/` as part of normal wiki maintenance. Read from it. Add to it when ingesting new material. Promote from it into `wiki/` when useful.
+
+### Reference Corpora
+
+A **reference corpus** is a large verbatim markdown collection kept under `raw/reference/{corpus-slug}/`. It may span multiple chunked `.md` files. Use reference corpora when full ingest would be too expensive and the primary need is grep-first search during queries, with synthesis filed only when explicitly asked.
+
+Decision rule:
+
+- normal-sized sources → `raw/sources/` + full ingest into `wiki/sources/{author}/`
+- corpus-scale material → `raw/reference/{corpus-slug}/` + stub ingest into `wiki/sources/reference/{corpus-slug}.md`
+
+Reference corpus stubs use `type: source` and `status: reference-corpus`. A stub should include the corpus title, scope, and file list or TOC pointers back into `raw/reference/{corpus-slug}/`. Do not run `summarize` or `quick-summarize` for reference corpora unless the user explicitly asks for full promotion.
 
 ### `wiki/`
 
@@ -25,6 +37,7 @@ Maintained knowledge base owned by the LLM.
 
 - `wiki/sources/{author}/`: compiled source pages, grouped by author to mirror `raw/sources/`
 - `wiki/sources/{author}/quick/`: compact quick summaries of source pages for that author
+- `wiki/sources/reference/`: lightweight stubs for `raw/reference/` corpora
 - `wiki/concepts/`: durable ideas that accumulate evidence across sources
 - `wiki/entities/`: recurring named actors, tools, companies, frameworks, people
 - `wiki/syntheses/`: cross-source analyses, comparisons, reports, durable query outputs
@@ -48,7 +61,7 @@ Use minimal frontmatter on wiki pages:
 
 ```yaml
 type: source | concept | entity | synthesis
-status: draft | maintained
+status: draft | maintained | reference-corpus
 updated: YYYY-MM-DD
 source_org: optional
 tags: [optional]
@@ -79,3 +92,5 @@ Concept and synthesis pages are read by humans. Optimize for that:
 - Do not create or update `wiki/syntheses/` unless the user explicitly asks for a synthesis, comparison, assessment, or other durable filed answer.
 - Deletion is a wiki operation, not a filesystem operation. Use the Discard workflow rather than removing files and relying on a later lint pass to reconcile.
 - Do not promote a note into `wiki/sources/` unless the underlying raw note is preserved in `raw/notes/` (or the source is captured verbatim in `raw/sources/`). Provenance must remain reachable from the wiki page.
+- Reference corpora default to stub ingest only. Full promotion from `raw/reference/` requires an explicit user request.
+- Reference corpus stubs must point to reachable paths under `raw/reference/{corpus-slug}/`.

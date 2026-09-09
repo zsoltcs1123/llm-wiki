@@ -14,6 +14,7 @@ System development priorities for the LLM Wiki project. Not a wiki artifact.
 - `_scaffold/` canonical skeleton for `/wiki init`
 - design principles and this roadmap in the dev repo
 - Karpathy gist attribution and lineage documented
+- `raw/reference/` convention for large verbatim corpora with grep-first query and stub ingest
 
 ## Current Gaps
 
@@ -33,7 +34,7 @@ By design the system does not create or update synthesis pages unless explicitly
 
 ### 3. Retrieval is still human-readable indexing
 
-No purpose-built lint scripts, stronger orphan discovery, or lightweight cross-wiki navigation tooling yet.
+Reference corpora provide grep-first retrieval for large verbatim material. No purpose-built lint scripts, stronger orphan discovery, or lightweight cross-wiki navigation tooling yet.
 
 ### 4. Browsing layer is underdeveloped
 

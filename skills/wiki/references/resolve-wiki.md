@@ -7,7 +7,7 @@ Before `ingest`, `lint`, `discard`, or a scoped `query`, determine which wiki ro
 A directory is a wiki root when it has **both**:
 
 - `wiki/index.md`
-- `raw/` (with `sources/` and `notes/` subdirs)
+- `raw/` (with `sources/`, `notes/`, and `reference/` subdirs)
 
 Optional marker: `.wiki-root.yaml` (slug, name) — written by `init`, speeds resolution.
 

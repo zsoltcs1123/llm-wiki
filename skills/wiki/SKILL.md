@@ -7,7 +7,7 @@ description: >-
   ingest into wiki, or asks research questions against a wiki.
 metadata:
   author: zs
-  version: "1.0"
+  version: "1.1"
 ---
 
 # Wiki
@@ -47,3 +47,4 @@ Read [model.md](references/model.md) for repo structure, page roles, frontmatter
 - For `concept` pages, do not generate an `Implications for This Repo` section.
 - Commit once per completed wiki-changing workflow when files changed. No commit for no-op runs.
 - During ingest, use the `summarize` and `quick-summarize` skills for source and quick pages if present.
+- Reference corpora in `raw/reference/` default to stub ingest only. Do not run full summarize unless the user explicitly asks for promotion.

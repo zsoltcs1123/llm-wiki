@@ -30,7 +30,7 @@ Re-run after pulling updates to refresh installed copies.
 | Command | Purpose |
 | --- | --- |
 | `/wiki init` | Create wiki structure (in-repo or `--submodule`) |
-| `/wiki ingest` | Process new `raw/` material into `wiki/` |
+| `/wiki ingest` | Process new `raw/` material into `wiki/` (full ingest for sources/notes; stub ingest for reference corpora) |
 | `/wiki query` | Answer from the wiki |
 | `/wiki lint` | Bounded health-check pass |
 | `/wiki discard` | Classified removal workflow |

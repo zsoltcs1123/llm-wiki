@@ -136,6 +136,8 @@ Material that is not central, but regularly helps answer core questions.
 
 Usually keep it in the current wiki until it grows into its own cluster.
 
+Large verbatim corpora (specifications, standards, long books) belong here when they support the wiki's question space. Keep them under `raw/reference/` with stub cataloging in `wiki/sources/reference/`. Compounding happens through query and explicit synthesis, not default full ingest.
+
 ### Separate Domain
 
 Material with its own center of gravity, concepts, entities, and syntheses.
