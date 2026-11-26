@@ -33,9 +33,9 @@ assert_eq "partial scaffold" "1.2" "$(wiki_scaffold_read "$PARTIAL")"
 echo
 echo "playbook chain"
 CHAIN="$(wiki_migrate_plan_playbook_names "1.0" "$TARGET" "$MIGRATIONS_DIR")"
-assert_eq "chain from 1.0" "1.0-to-1.1.md,1.1-to-1.2.md,1.2-to-1.3.md,1.3-to-1.4.md" "$CHAIN"
+assert_eq "chain from 1.0" "1.0-to-1.1.md,1.1-to-1.2.md,1.2-to-1.3.md,1.3-to-1.4.md,1.4-to-1.5.md" "$CHAIN"
 
-for pb in 1.0-to-1.1.md 1.1-to-1.2.md 1.2-to-1.3.md 1.3-to-1.4.md; do
+for pb in 1.0-to-1.1.md 1.1-to-1.2.md 1.2-to-1.3.md 1.3-to-1.4.md 1.4-to-1.5.md; do
   assert_eq "playbook exists: $pb" "true" "$([[ -f "$MIGRATIONS_DIR/$pb" ]] && echo true || echo false)"
 done
 
@@ -68,6 +68,17 @@ wiki_index_apply_hub_policy "$HUB_TMP/wiki/index.md"
 assert_eq "hub policy removes Sources heading" "false" "$(grep -q '^## Sources' "$HUB_TMP/wiki/index.md" && echo true || echo false)"
 assert_eq "hub policy has Concepts" "true" "$(grep -q '^## Concepts' "$HUB_TMP/wiki/index.md" && echo true || echo false)"
 assert_eq "hub policy has Reference Corpora" "true" "$(grep -q '^## Reference Corpora' "$HUB_TMP/wiki/index.md" && echo true || echo false)"
+
+echo
+echo "log newest first 1.4 to 1.5"
+LOG_TMP="$(mktemp -d)"
+cp -R "$TESTS_DIR/fixtures/migrate/log-1.4/." "$LOG_TMP/"
+wiki_migrate_mechanical_playbook "$LOG_TMP" "1.4-to-1.5.md" "$SCAFFOLD_DIR"
+assert_eq "log convention line" "true" "$(grep -q '^Newest entries first' "$LOG_TMP/wiki/log.md" && echo true || echo false)"
+FIRST_DATE="$(grep -m1 '^## \[' "$LOG_TMP/wiki/log.md" | sed -n 's/^## \[\([0-9-]*\)\].*/\1/p' | tr -d '\r')"
+LAST_DATE="$(grep '^## \[' "$LOG_TMP/wiki/log.md" | tail -1 | sed -n 's/^## \[\([0-9-]*\)\].*/\1/p' | tr -d '\r')"
+assert_eq "log newest date first" "2025-06-01" "$FIRST_DATE"
+assert_eq "log oldest date last" "2025-01-01" "$LAST_DATE"
 
 echo
 echo "merge quick sources 1.3 to 1.4"

@@ -8,7 +8,7 @@ Bring an existing wiki up to date with the installed wiki skill layout and conve
 2. Resolve the wiki (see [resolve-wiki.md](../resolve-wiki.md)).
 3. Run `/wiki migrate` and read the plan.
 4. Run `/wiki migrate --apply` when the plan looks right.
-5. If you changed files, append `wiki/log.md` and commit once per [commits.md](../commits.md).
+5. If you changed files, prepend `wiki/log.md` per [log.md](../log.md) and commit once per [commits.md](../commits.md).
 
 You can run `/wiki lint` after apply.
 
@@ -68,6 +68,7 @@ Walk from the current `scaffold` value to the target using [migrations/](../migr
 2. `1.1-to-1.2.md`
 3. `1.2-to-1.3.md`
 4. `1.3-to-1.4.md`
+5. `1.4-to-1.5.md`
 
 Show the diff for `.wiki-root.yaml` and `wiki/index.md` before you write. Get confirmation during `--apply`.
 
@@ -91,5 +92,5 @@ Breaking playbooks need explicit user sign-off. Do not run them by default.
 2. Run tier A additive sync (honor the deny list and `--accept-scaffold-overwrites`).
 3. Run each playbook in order. Set `scaffold` in `.wiki-root.yaml` after each completed step.
 4. Set `scaffold` to the final reached version.
-5. Append `wiki/log.md`.
+5. Prepend `wiki/log.md` per [log.md](../log.md).
 6. Create one commit: `wiki(<slug>) migrate: <summary>`.

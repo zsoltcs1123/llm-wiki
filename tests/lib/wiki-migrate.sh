@@ -9,7 +9,7 @@ LIB_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$LIB_DIR/skill-version.sh"
 
 # Ordered scaffold semver steps (extend when new playbooks ship).
-WIKI_SCAFFOLD_STEPS=("1.0" "1.1" "1.2" "1.3" "1.4")
+WIKI_SCAFFOLD_STEPS=("1.0" "1.1" "1.2" "1.3" "1.4" "1.5")
 
 wiki_scaffold_read() {
   local root="${1%/}"
@@ -347,6 +347,89 @@ wiki_migrate_merge_quick_sources() {
   find "$sources_root" -type d -name quick -empty -delete 2>/dev/null || true
 }
 
+wiki_migrate_log_newest_first() {
+  local wiki_root="${1%/}"
+  local log="$wiki_root/wiki/log.md"
+  [[ -f "$log" ]] || return 0
+
+  local tmp
+  tmp="$(mktemp)"
+  awk -v conv="Newest entries first. Do not edit or remove prior entries." '
+    BEGIN {
+      n = 0
+      has_conv = 0
+      after_title = 0
+    }
+    function push_block() {
+      if (block == "") return
+      n++
+      sections[n] = block
+      if (block ~ /^## \[[0-9]{4}-[0-9]{2}-[0-9]{2}\]/) {
+        match(block, /^## \[([0-9]{4}-[0-9]{2}-[0-9]{2})\]/, d)
+        dates[n] = d[1]
+      } else {
+        dates[n] = "0000-00-00"
+      }
+      block = ""
+    }
+    /^# Wiki Log/ {
+      print
+      after_title = 1
+      next
+    }
+    after_title == 1 && /^Newest entries first/ {
+      has_conv = 1
+      print
+      after_title = 2
+      next
+    }
+    after_title == 1 && /^$/ {
+      next
+    }
+    after_title <= 1 && /^## / {
+      push_block()
+      block = $0 "\n"
+      after_title = 2
+      next
+    }
+  after_title == 2 && /^## / {
+      push_block()
+      block = $0 "\n"
+      next
+    }
+    {
+      if (after_title == 1) {
+        leading = leading $0 "\n"
+        next
+      }
+      block = block $0 "\n"
+    }
+    END {
+      push_block()
+      need_rev = (n >= 2 && dates[1] < dates[2])
+      if (!has_conv) {
+        print conv
+      }
+      if (n == 0) {
+        exit
+      }
+      print ""
+      if (need_rev) {
+        for (i = n; i >= 1; i--) {
+          printf "%s", sections[i]
+          if (i > 1) print ""
+        }
+      } else {
+        for (i = 1; i <= n; i++) {
+          printf "%s", sections[i]
+          if (i < n) print ""
+        }
+      }
+    }
+  ' "$log" >"$tmp"
+  mv "$tmp" "$log"
+}
+
 wiki_migrate_mechanical_playbook() {
   local wiki_root="${1%/}"
   local playbook_basename="$2"
@@ -368,6 +451,10 @@ wiki_migrate_mechanical_playbook() {
     1.3-to-1.4.md)
       wiki_migrate_merge_quick_sources "$wiki_root"
       wiki_scaffold_write "$wiki_root" "1.4"
+      ;;
+    1.4-to-1.5.md)
+      wiki_migrate_log_newest_first "$wiki_root"
+      wiki_scaffold_write "$wiki_root" "1.5"
       ;;
     *)
       echo "wiki_migrate_mechanical_playbook: unknown $playbook_basename" >&2

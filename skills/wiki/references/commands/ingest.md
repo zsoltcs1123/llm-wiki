@@ -10,7 +10,7 @@ When new material is added to `raw/`, branch on input path. Read [model.md](../m
 4. Update affected maintained pages to reflect disagreement, uncertainty, supersession, duplication, or unresolved tension when the new source changes the current understanding.
 5. Update `wiki/syntheses/` only if the user explicitly asks for synthesis work and the new source materially changes an existing synthesis.
 6. Update `wiki/index.md` only if this ingest created or changed a concept, entity, synthesis, or reference-corpus page.
-7. Append an ingest entry to `wiki/log.md`, noting contradiction or issue handling when it occurred.
+7. Prepend an ingest entry to `wiki/log.md` per [log.md](../log.md); note contradiction handling when it occurred.
 8. Commit the changes if files changed, using `wiki(<wiki-slug>) ingest: <summary>` per [commits.md](../commits.md).
 9. Close with the [Response](#response) file list.
 
@@ -24,7 +24,7 @@ Lightweight stub ingest for large verbatim corpora:
 2. Create or update a stub at `wiki/sources/reference/{corpus-slug}.md` with `type: source` and `status: reference-corpus`. Include corpus title, scope, and file list or TOC pointers into `raw/reference/{corpus-slug}/`.
 3. Add or update the **Reference Corpora** section in `wiki/index.md`.
 4. Skip `summarize`, `quick-summarize`, and `citations` unless the user explicitly asks for full promotion.
-5. Append a reference ingest entry to `wiki/log.md`.
+5. Prepend a reference ingest entry to `wiki/log.md` per [log.md](../log.md).
 6. Commit the changes if files changed, using `wiki(<wiki-slug>) ingest: <summary>` per [commits.md](../commits.md).
 7. Close with the [Response](#response) file list.
 

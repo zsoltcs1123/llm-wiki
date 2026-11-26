@@ -18,7 +18,7 @@ When wiki content should be removed:
    - For `retract-source`: revisit every page that cited the retracted source and remove or qualify claims that depended on it. Do not silently leave orphaned claims standing.
 5. Remove the file(s).
 6. Update `wiki/index.md` if the discarded page was listed there (concept, entity, synthesis, or reference corpus).
-7. Append a `log.md` entry with classification, scope, reason, and the surviving page (if any).
+7. Prepend a `wiki/log.md` entry per [log.md](../log.md) with classification, scope, reason, and the surviving page (if any).
 8. Commit the changes if files changed, using `wiki(<wiki-slug>) discard: <summary>` per [commits.md](../commits.md).
 
 Discard is not a normal lint outcome. A lint pass may *propose* discards, but the discard itself must run through this workflow.

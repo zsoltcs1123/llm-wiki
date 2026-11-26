@@ -9,7 +9,7 @@ When answering research questions against a wiki:
 5. Cite raw paths when answering from reference corpora.
 6. By default, answer in chat only.
 7. Only write to `wiki/syntheses/` if the user explicitly asks for a durable synthesis artifact.
-8. Update `wiki/index.md` and `wiki/log.md` only if a curated wiki page was actually created or changed (concept, entity, synthesis, or reference corpus).
+8. Update `wiki/index.md` only if a curated hub page changed; prepend `wiki/log.md` per [log.md](../log.md) when a curated page was created or changed (concept, entity, synthesis, or reference corpus).
 9. Commit the changes if files changed, using the standardized wiki commit format and the operation that best matches the work per [commits.md](../commits.md).
 
 ## Before Starting

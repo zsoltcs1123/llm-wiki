@@ -8,7 +8,7 @@ description: >-
   questions against a wiki.
 metadata:
   author: zs
-  version: "1.4"
+  version: "1.5"
 ---
 
 # Wiki
@@ -51,4 +51,5 @@ Read [model.md](references/model.md) for repo structure, page roles, frontmatter
 - Ingest: one source file per [source-page.md](references/source-page.md) (`quick-summarize`, `summarize`, `citations`; citations last). No `quick/` pages. Finish with links to every touched `wiki/` file ([ingest response](references/commands/ingest.md#response)).
 - Reference corpora in `raw/reference/` default to stub ingest only. Do not run full summarize unless the user explicitly asks for promotion.
 - Keep `wiki/index.md` curated: concepts, entities, syntheses, and reference corpora only. Do not catalog routine source pages there.
-- On migrate, do not overwrite maintained content (`wiki/index.md`, `wiki/log.md`, role pages, raw capture) without explicit user approval.
+- Prepend `wiki/log.md` entries (newest first) per [log.md](references/log.md); do not append below older entries.
+- On migrate, do not overwrite maintained content (`wiki/index.md`, `wiki/log.md`, role pages, raw capture) without explicit user approval except log reorder in playbook `1.4-to-1.5`.
