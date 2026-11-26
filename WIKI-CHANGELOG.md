@@ -5,6 +5,7 @@ Consumer-facing operate layer notes. This file lives in the dev repo only. Init 
 ## 1.4
 
 - Source ingest: one page per source (`quick-summarize`, `summarize`, `citations`; citations last). No `quick/` tree. Layout: `source-page.md`.
+- Ingest response links every `wiki/` file created or updated in that run.
 - Playbook `1.3-to-1.4`: merge legacy quick siblings into source pages; remove empty `quick/` dirs.
 
 ## 1.3

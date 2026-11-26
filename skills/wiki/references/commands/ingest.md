@@ -12,6 +12,7 @@ When new material is added to `raw/`, branch on input path. Read [model.md](../m
 6. Update `wiki/index.md` only if this ingest created or changed a concept, entity, synthesis, or reference-corpus page.
 7. Append an ingest entry to `wiki/log.md`, noting contradiction or issue handling when it occurred.
 8. Commit the changes if files changed, using `wiki(<wiki-slug>) ingest: <summary>` per [commits.md](../commits.md).
+9. Close with the [Response](#response) file list.
 
 One source may update many wiki pages. That is expected.
 
@@ -25,6 +26,11 @@ Lightweight stub ingest for large verbatim corpora:
 4. Skip `summarize`, `quick-summarize`, and `citations` unless the user explicitly asks for full promotion.
 5. Append a reference ingest entry to `wiki/log.md`.
 6. Commit the changes if files changed, using `wiki(<wiki-slug>) ingest: <summary>` per [commits.md](../commits.md).
+7. Close with the [Response](#response) file list.
+
+## Response
+
+End the run with markdown links to every `wiki/` file created or updated (source stubs, concepts, entities, `wiki/index.md`, `wiki/log.md`). Include the commit hash or subject when a commit was made. No-op: say so; link nothing.
 
 ## Before Starting
 

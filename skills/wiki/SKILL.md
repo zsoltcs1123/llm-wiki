@@ -48,7 +48,7 @@ Read [model.md](references/model.md) for repo structure, page roles, frontmatter
 - During ingest, surface contradictions, stale claims, overlap, and structural issues instead of silently merging them away.
 - For `concept` pages, do not generate an `Implications for This Repo` section.
 - Commit once per completed wiki-changing workflow when files changed. No commit for no-op runs.
-- Ingest: one source file per [source-page.md](references/source-page.md) (`quick-summarize`, `summarize`, `citations`; citations last). No `quick/` pages.
+- Ingest: one source file per [source-page.md](references/source-page.md) (`quick-summarize`, `summarize`, `citations`; citations last). No `quick/` pages. Finish with links to every touched `wiki/` file ([ingest response](references/commands/ingest.md#response)).
 - Reference corpora in `raw/reference/` default to stub ingest only. Do not run full summarize unless the user explicitly asks for promotion.
 - Keep `wiki/index.md` curated: concepts, entities, syntheses, and reference corpora only. Do not catalog routine source pages there.
 - On migrate, do not overwrite maintained content (`wiki/index.md`, `wiki/log.md`, role pages, raw capture) without explicit user approval.
