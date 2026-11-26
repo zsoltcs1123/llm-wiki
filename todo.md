@@ -1,10 +1,11 @@
 # Pre-scale (tackle one by one)
 
-1. ~~**resolve-wiki**~~ — smoke suite at `tests/smoke/` (fixtures + `run.sh`); run after resolve/init/scaffold changes
-2. ~~**index.md policy**~~ — hub-only index (concepts/entities/syntheses/reference); skill v1.2; agentic-engineering migrated
-3. **Obsidian scaffold** — standardize vault setup in scaffold `OBSIDIAN.md` (vault-per-wiki vs monorepo workspace); pull from learning-repo pi workflow
-4. **`.wiki-root.yaml` backfill** — add marker to agentic-engineering and any pre-init wikis
-5. **skill sync discipline** — bump consumer hosts to v1.1+; `install.sh` on change; consider version check in install
+1. ~~**resolve-wiki**~~ — tests at `tests/scenarios/init/`; `make test`
+2. ~~**index.md policy**~~ — hub-only index; skill v1.2; playbook `1.1-to-1.2`
+3. ~~**migrate / scaffold versioning**~~ — skill v1.3, playbooks, `tests/scenarios/migrate/`
+4. **Obsidian scaffold** — standardize vault setup in scaffold `OBSIDIAN.md` (vault-per-wiki vs monorepo workspace); pull from learning-repo pi workflow
+5. **live wiki backfill** — `/wiki migrate --apply` on agentic-engineering and other pre-1.3 wikis
+6. ~~**skill sync discipline**~~ — `install.sh --check`, `--pin`; `WIKI-CHANGELOG.md`
 
 # Other
 

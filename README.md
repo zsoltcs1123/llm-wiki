@@ -8,7 +8,7 @@ Karpathy's gist describes the core idea: instead of re-deriving knowledge from r
 
 | Layer | What | Where |
 | --- | --- | --- |
-| **Operate** | How to run a wiki (init, ingest, query, lint, discard) | `skills/wiki/` — install into host repos |
+| **Operate** | How to run a wiki (init, migrate, ingest, query, lint, discard) | `skills/wiki/` — install into host repos |
 | **Develop** | System design, roadmap, scaffold | This repo |
 
 Consumers install skills. They do not fork this repo to start a wiki. New wikis are created in place via `/wiki init`.
@@ -33,6 +33,7 @@ Re-run after pulling updates to refresh installed copies.
 | `/wiki ingest` | Process new `raw/` material into `wiki/` (full ingest for sources/notes; stub ingest for reference corpora) |
 | `/wiki query` | Answer from the wiki |
 | `/wiki lint` | Bounded health-check pass |
+| `/wiki migrate` | Sync wiki tree to installed skill (dry-run, `--apply`) |
 | `/wiki discard` | Classified removal workflow |
 
 ## Hosting Patterns
@@ -73,16 +74,18 @@ llm-wiki/
 └── _scaffold/        # canonical skeleton copied by wiki init
 ```
 
-## Smoke Tests
+## Tests
 
 ```bash
-./tests/smoke/run.sh
+make test          # all
+make test-init
+make test-migrate
 ```
 
-Validates wiki root detection, resolve-wiki priority, and init scaffold behavior. See [tests/smoke/README.md](tests/smoke/README.md).
+[tests/README.md](tests/README.md).
 
 ## Development Docs
 
-- [WIKI-DESIGN-PRINCIPLES.md](WIKI-DESIGN-PRINCIPLES.md) — boundary, scope, growth rules
-- [WIKI-ROADMAP.md](WIKI-ROADMAP.md) — system development priorities
+- [WIKI-DESIGN-PRINCIPLES.md](WIKI-DESIGN-PRINCIPLES.md): boundary, scope, growth rules
+- [WIKI-ROADMAP.md](WIKI-ROADMAP.md): system development priorities
 - [skills/wiki/SKILL.md](skills/wiki/SKILL.md) — operate layer source

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
 # Executable mirror of skills/wiki/references/resolve-wiki.md.
-# Kept in sync with the skill doc; validated by tests/smoke/run.sh.
+# Kept in sync with the skill doc; validated by tests/scenarios/init/run.sh.
 
 set -euo pipefail
 

@@ -4,6 +4,19 @@ Each wiki is a focused knowledge base with its own conceptual center of gravity.
 
 A wiki may live at the repo root, under `wikis/<slug>/`, or at another path (for example `wiki/` as a git submodule beside a codebase). The slug used in commits and `.wiki-root.yaml` identifies the wiki regardless of path.
 
+## Consumer updates
+
+Run `llm-wiki/skills/install.sh` to refresh operate behavior under `.agents/skills/`. Install does not change files inside an existing wiki tree.
+
+Layout and convention drift uses two version signals:
+
+| Signal | Location | Meaning |
+| --- | --- | --- |
+| Skill version | `skills/wiki/SKILL.md` `metadata.version` | Installed operate contract |
+| Scaffold version | `.wiki-root.yaml` `scaffold` | Last completed layout or convention migration |
+
+If `scaffold` is missing, treat the wiki as version `1.0`. `/wiki init` writes `scaffold` from the skill version at init time. When the dev repo ships layout changes, run `/wiki migrate` (dry-run, then `--apply`) on each affected wiki. See [How to migrate a wiki](commands/migrate.md) and the [migration playbook index](migrations/README.md).
+
 ## Two Layers
 
 ### `raw/`

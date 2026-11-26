@@ -2,18 +2,21 @@
 
 set -euo pipefail
 
-SMOKE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-REPO_ROOT="$(cd "$SMOKE_DIR/../.." && pwd)"
+SCENARIO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+TESTS_DIR="$(cd "$SCENARIO_DIR/../.." && pwd)"
+REPO_ROOT="$(cd "$TESTS_DIR/.." && pwd)"
 
-# shellcheck source=lib/assert.sh
-source "$SMOKE_DIR/lib/assert.sh"
-# shellcheck source=lib/resolve-wiki.sh
-source "$SMOKE_DIR/lib/resolve-wiki.sh"
-# shellcheck source=lib/wiki-init.sh
-source "$SMOKE_DIR/lib/wiki-init.sh"
+# shellcheck source=../../lib/assert.sh
+source "$TESTS_DIR/lib/assert.sh"
+# shellcheck source=../../lib/resolve-wiki.sh
+source "$TESTS_DIR/lib/resolve-wiki.sh"
+# shellcheck source=../../lib/wiki-init.sh
+source "$TESTS_DIR/lib/wiki-init.sh"
+# shellcheck source=../../lib/skill-version.sh
+source "$TESTS_DIR/lib/skill-version.sh"
 
-MULTI_HOST="$SMOKE_DIR/fixtures/multi-wiki-host"
-SINGLE_HOST="$SMOKE_DIR/fixtures/single-wiki-root"
+MULTI_HOST="$TESTS_DIR/fixtures/multi-wiki-host"
+SINGLE_HOST="$TESTS_DIR/fixtures/single-wiki-root"
 SCAFFOLD_DIR="$REPO_ROOT/skills/wiki/references/scaffold"
 
 resolve_capture() {
@@ -37,7 +40,7 @@ resolve_exit_code() {
   echo "$exit_code"
 }
 
-echo "resolve-wiki smoke tests"
+echo "scenario: init (resolve-wiki + init)"
 echo
 
 echo "fixtures"
@@ -81,10 +84,19 @@ echo "init"
 INIT_TMP="$(mktemp -d)"
 trap 'rm -rf "$INIT_TMP"' EXIT
 
-wiki_init "$INIT_TMP/wikis/delta" "delta" "$SCAFFOLD_DIR" "$INIT_TMP"
+EXPECTED_SCAFFOLD="$(wiki_skill_version "$REPO_ROOT")"
+
+wiki_init "$INIT_TMP/wikis/delta" "delta" "$SCAFFOLD_DIR" "$INIT_TMP" "wikis/AGENTS.md" "$REPO_ROOT"
 assert_eq "init creates wiki root" "true" "$(wiki_is_root "$INIT_TMP/wikis/delta" && echo true || echo false)"
 assert_eq "init writes slug" "delta" "$(wiki_slug_from_root "$INIT_TMP/wikis/delta")"
+assert_eq "init writes scaffold" "$EXPECTED_SCAFFOLD" "$(awk -F': *' '/^scaffold:/ { gsub(/["'\'']/, "", $2); print $2; exit }' "$INIT_TMP/wikis/delta/.wiki-root.yaml" | tr -d '\r' | xargs)"
 assert_eq "init appends registry row" "true" "$(grep -q '| delta | wikis/delta/ |' "$INIT_TMP/wikis/AGENTS.md" && echo true || echo false)"
 assert_eq "init wiki resolves by slug" "$INIT_TMP/wikis/delta" "$(resolve_capture "$INIT_TMP" "$INIT_TMP" "" "delta" "")"
+
+set +e
+wiki_init "$INIT_TMP/wikis/delta" "delta" "$SCAFFOLD_DIR" "$INIT_TMP" "wikis/AGENTS.md" "$REPO_ROOT" >/dev/null 2>&1
+init_refuse_exit=$?
+set -e
+assert_exit "init refuses existing wiki root" 1 "$init_refuse_exit"
 
 smoke_summary

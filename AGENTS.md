@@ -10,32 +10,32 @@ Based on [Karpathy's LLM Wiki gist](https://gist.github.com/karpathy/442a6bf5559
 
 - [WIKI-DESIGN-PRINCIPLES.md](WIKI-DESIGN-PRINCIPLES.md): boundary, scope, and growth rules
 - [WIKI-ROADMAP.md](WIKI-ROADMAP.md): system development priorities
-- [skills/wiki/SKILL.md](skills/wiki/SKILL.md): operate layer (ingest, query, lint, discard, init)
+- [skills/wiki/SKILL.md](skills/wiki/SKILL.md): operate layer (init, migrate, ingest, query, lint, discard)
 - [\_scaffold/](_scaffold/): canonical wiki skeleton used by `/wiki init`
 
 ## Skills
 
 Install into a host repo: `./skills/install.sh <target>`.
 
-When changing operate semantics, update `skills/wiki/` and bump `metadata.version` in `SKILL.md`. Sync scaffold changes to both `_scaffold/` and `skills/wiki/references/scaffold/`.
+When operate semantics change, update `skills/wiki/` and bump `metadata.version` in `SKILL.md`. When layout changes, sync `_scaffold/` and `skills/wiki/references/scaffold/`.
 
-## Smoke Tests
+## Layout or convention changes
 
-After changing resolve rules, init, or scaffold layout:
+1. Copy `_scaffold/` to `skills/wiki/references/scaffold/`. Set template `scaffold:` to the new skill version.
+2. Update `skills/wiki/references/commands/init.md` when init steps change.
+3. Add a playbook under `skills/wiki/references/migrations/` when hosts must migrate existing wikis.
+4. Document the release in [WIKI-CHANGELOG.md](WIKI-CHANGELOG.md).
+5. Update `tests/lib/wiki-migrate.sh` when tier A rules or semver steps change.
+
+## Tests
+
+After you change resolve rules, init, migrate, or scaffold layout, run:
 
 ```bash
-./tests/smoke/run.sh
+make test
 ```
 
-See [tests/smoke/README.md](tests/smoke/README.md).
-
-## Scaffold Changes
-
-If you change the wiki directory structure, update:
-
-1. `_scaffold/`
-2. `skills/wiki/references/scaffold/` (copy)
-3. `skills/wiki/references/commands/init.md` if init steps change
+See [tests/README.md](tests/README.md).
 
 ## Commits
 

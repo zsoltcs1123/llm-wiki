@@ -1,20 +1,21 @@
 ---
 name: wiki
 description: >-
-  Operate an LLM-maintained markdown wiki — init structure, ingest raw sources,
-  query the knowledge base, lint for gaps, discard pages. Use when the user says
-  /wiki, wiki init, wiki ingest, wiki query, wiki lint, wiki discard, lint pass,
-  ingest into wiki, or asks research questions against a wiki.
+  Operate an LLM-maintained markdown wiki — init structure, migrate scaffold,
+  ingest raw sources, query the knowledge base, lint for gaps, discard pages.
+  Use when the user says /wiki, wiki init, wiki migrate, wiki ingest, wiki query,
+  wiki lint, wiki discard, lint pass, ingest into wiki, or asks research
+  questions against a wiki.
 metadata:
   author: zs
-  version: "1.2"
+  version: "1.3"
 ---
 
 # Wiki
 
 ## Outcome
 
-Operate a focused LLM-maintained wiki: scaffold structure, ingest raw material into maintained pages, answer from the wiki, run bounded lint passes, discard content through a classified workflow.
+Operate a focused LLM-maintained wiki: init/migrate scaffold, ingest, query, lint, discard.
 
 Based on [Karpathy's LLM Wiki pattern](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f).
 
@@ -24,18 +25,19 @@ Based on [Karpathy's LLM Wiki pattern](https://gist.github.com/karpathy/442a6bf5
 | ---------------- | -------------------------------------------------------------------------------------------------------------------- |
 | (none / unclear) | [commands/query.md](references/commands/query.md) if a question is present; otherwise list commands and resolve wiki |
 | `init`           | [commands/init.md](references/commands/init.md)                                                                      |
+| `migrate`        | [commands/migrate.md](references/commands/migrate.md)                                                                |
 | `ingest`         | [commands/ingest.md](references/commands/ingest.md)                                                                  |
 | `query`          | [commands/query.md](references/commands/query.md)                                                                    |
 | `lint`           | [commands/lint.md](references/commands/lint.md)                                                                      |
 | `discard`        | [commands/discard.md](references/commands/discard.md)                                                                |
 
-1. First word is `init`, `ingest`, `query`, `lint`, or `discard` → load that reference. Remainder is the target or argument.
-2. Intent clearly maps (e.g. "ingest this source", "lint pass", "remove this page") → load the matching reference.
+1. First word is `init`, `migrate`, `ingest`, `query`, `lint`, or `discard` → load that reference. Remainder is the target or argument.
+2. Intent clearly maps (e.g. "migrate this wiki", "ingest this source", "lint pass", "remove this page") → load the matching reference.
 3. Bare `/wiki` or unclear → resolve wiki per [resolve-wiki.md](references/resolve-wiki.md), list commands, ask if needed.
 
-Before any mutating command (`init`, `ingest`, `lint`, `discard`), resolve the target wiki per [resolve-wiki.md](references/resolve-wiki.md).
+Before any mutating command (`init`, `migrate`, `ingest`, `lint`, `discard`), resolve the target wiki per [resolve-wiki.md](references/resolve-wiki.md).
 
-Read [model.md](references/model.md) for repo structure, page roles, frontmatter, writing style, and working rules. Read [commits.md](references/commits.md) before creating wiki git commits.
+Read [model.md](references/model.md) for repo structure, page roles, frontmatter, writing style, consumer updates, and working rules. Read [commits.md](references/commits.md) before creating wiki git commits.
 
 ## Guardrails
 
@@ -49,3 +51,4 @@ Read [model.md](references/model.md) for repo structure, page roles, frontmatter
 - During ingest, use the `summarize` and `quick-summarize` skills for source and quick pages if present.
 - Reference corpora in `raw/reference/` default to stub ingest only. Do not run full summarize unless the user explicitly asks for promotion.
 - Keep `wiki/index.md` curated: concepts, entities, syntheses, and reference corpora only. Do not catalog routine source pages there.
+- On migrate, do not overwrite maintained content (`wiki/index.md`, `wiki/log.md`, role pages, raw capture) without explicit user approval.
