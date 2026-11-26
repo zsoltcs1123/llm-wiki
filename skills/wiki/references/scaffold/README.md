@@ -12,7 +12,7 @@
 ## What Lives Here
 
 - `sources/{author}/`: one-source summaries, grouped by author (mirrors `raw/sources/`)
-- `sources/{author}/quick/`: compressed source summaries for that author
+- `sources/{author}/`: one page per source (quick + full summary + citations)
 - `sources/reference/`: lightweight stubs for large corpora in `raw/reference/`
 - `concepts/`: recurring ideas across sources
 - `entities/`: recurring named actors, companies, tools, people

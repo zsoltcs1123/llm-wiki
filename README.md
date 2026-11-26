@@ -21,7 +21,7 @@ Consumers install skills. They do not fork this repo to start a wiki. New wikis 
 ./skills/install.sh --list     # list installable skills
 ```
 
-Skills included: `wiki`, `summarize`, `quick-summarize`.
+Skills included: `wiki`, `summarize`, `quick-summarize`, `citations`.
 
 Re-run after pulling updates to refresh installed copies.
 
@@ -70,7 +70,7 @@ llm-wiki/
 ├── AGENTS.md
 ├── WIKI-DESIGN-PRINCIPLES.md
 ├── WIKI-ROADMAP.md
-├── skills/           # wiki + summarize + quick-summarize + install.sh
+├── skills/           # wiki + summarize + quick-summarize + citations + install.sh
 └── _scaffold/        # canonical skeleton copied by wiki init
 ```
 

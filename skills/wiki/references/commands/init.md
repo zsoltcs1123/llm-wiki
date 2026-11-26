@@ -36,7 +36,7 @@ Use when the wiki should live in a separate repo, mounted beside a codebase (for
 ```yaml
 slug: my-topic
 name: optional human label
-scaffold: "1.3"
+scaffold: "1.4"
 ```
 
 Set `slug` from `--slug` or the target directory name. Set `scaffold` to the `metadata.version` value in this skill's `SKILL.md`.

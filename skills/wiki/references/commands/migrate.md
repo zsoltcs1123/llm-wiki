@@ -67,6 +67,7 @@ Walk from the current `scaffold` value to the target using [migrations/](../migr
 1. `1.0-to-1.1.md`
 2. `1.1-to-1.2.md`
 3. `1.2-to-1.3.md`
+4. `1.3-to-1.4.md`
 
 Show the diff for `.wiki-root.yaml` and `wiki/index.md` before you write. Get confirmation during `--apply`.
 

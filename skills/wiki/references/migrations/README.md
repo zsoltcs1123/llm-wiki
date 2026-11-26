@@ -9,6 +9,7 @@ Reference index for tier B of [migrate.md](../commands/migrate.md). Each playboo
 | 1.0 | 1.1 | [1.0-to-1.1.md](1.0-to-1.1.md) |
 | 1.1 | 1.2 | [1.1-to-1.2.md](1.1-to-1.2.md) |
 | 1.2 | 1.3 | [1.2-to-1.3.md](1.2-to-1.3.md) |
+| 1.3 | 1.4 | [1.3-to-1.4.md](1.3-to-1.4.md) |
 
 If `.wiki-root.yaml` has no `scaffold` key, treat the wiki as version `1.0`.
 

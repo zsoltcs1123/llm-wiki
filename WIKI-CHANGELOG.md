@@ -2,11 +2,16 @@
 
 Consumer-facing operate layer notes. This file lives in the dev repo only. Init does not copy it into wikis.
 
+## 1.4
+
+- Source ingest: one page per source (`quick-summarize`, `summarize`, `citations`; citations last). No `quick/` tree. Layout: `source-page.md`.
+- Playbook `1.3-to-1.4`: merge legacy quick siblings into source pages; remove empty `quick/` dirs.
+
 ## 1.3
 
 - `/wiki migrate` supports dry-run (default), `--apply`, and `--to`. Tier A adds missing scaffold files. Tier B runs versioned playbooks.
 - `.wiki-root.yaml` `scaffold` records the last completed layout migration. If the key is missing, the wiki is version `1.0`.
-- To upgrade from skill 1.2 or older: run `install.sh`, then `/wiki migrate` on each wiki. Playbooks may include `1.0-to-1.1`, `1.1-to-1.2`, and `1.2-to-1.3`.
+- To upgrade from skill 1.3 or older: run `install.sh`, then `/wiki migrate` on each wiki. Playbooks may include steps through `1.3-to-1.4`.
 - Optional: `skills/install.sh --check` compares installed skill copies to the source tree.
 
 ## 1.2

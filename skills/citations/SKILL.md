@@ -6,7 +6,7 @@ description: >-
   asks what a text cites, or wants sources extracted without guessing.
 metadata:
   author: zs
-  version: "1.0"
+  version: "1.1"
 ---
 
 # Citations
@@ -52,6 +52,10 @@ One bullet per reference. Add a short quote or paraphrase from the input when it
 Optional per bullet (omit when absent): **Kind**, **Title or name**, **Authors or body**, **Year**, **ID or URL**, **Where in input** (section or brief locator on long inputs).
 
 Do not summarize the source unless the user asks.
+
+## Wiki ingest
+
+On `/wiki ingest`, append bullets under final `## Citations` per **Output format**. If none qualify, section body is exactly `No citations found.` Nothing may follow. See host wiki `references/source-page.md`.
 
 ## Guardrails
 

@@ -13,7 +13,7 @@
 #
 # Skills are copied as snapshots; re-run this script to update them.
 #
-# Pin file format (optional): one line per skill, "name version", e.g. "wiki 1.3"
+# Pin file format (optional): one line per skill, "name version", e.g. "wiki 1.4"
 
 set -euo pipefail
 

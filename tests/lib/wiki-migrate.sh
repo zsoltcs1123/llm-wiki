@@ -9,7 +9,7 @@ LIB_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$LIB_DIR/skill-version.sh"
 
 # Ordered scaffold semver steps (extend when new playbooks ship).
-WIKI_SCAFFOLD_STEPS=("1.0" "1.1" "1.2" "1.3")
+WIKI_SCAFFOLD_STEPS=("1.0" "1.1" "1.2" "1.3" "1.4")
 
 wiki_scaffold_read() {
   local root="${1%/}"
@@ -230,6 +230,123 @@ wiki_index_apply_hub_policy() {
   mv "$tmp" "$index"
 }
 
+wiki_markdown_body_only() {
+  local file="$1"
+  awk '
+    BEGIN { fm = 0 }
+    NR == 1 && $0 == "---" { fm = 1; next }
+    fm == 1 {
+      if ($0 == "---") { fm = 2; next }
+      next
+    }
+    { print }
+  ' "$file"
+}
+
+wiki_markdown_frontmatter_only() {
+  local file="$1"
+  awk '
+    BEGIN { fm = 0 }
+    NR == 1 && $0 == "---" { print; fm = 1; next }
+    fm == 1 {
+      print
+      if ($0 == "---") { exit }
+    }
+  ' "$file"
+}
+
+wiki_markdown_split_citations() {
+  local body_file="$1"
+  local main_out="$2"
+  local cit_out="$3"
+  : >"$main_out"
+  : >"$cit_out"
+  awk -v main="$main_out" -v cit="$cit_out" '
+    BEGIN { mode = "main" }
+    /^## Citations([[:space:]]|$)/ { mode = "citations" }
+    {
+      if (mode == "main") {
+        print >> main
+      } else {
+        print >> cit
+      }
+    }
+  ' "$body_file"
+}
+
+wiki_migrate_merge_quick_sources() {
+  local wiki_root="${1%/}"
+  local sources_root="$wiki_root/wiki/sources"
+
+  [[ -d "$sources_root" ]] || return 0
+
+  local quickfile author_dir slug main_file tmp_quick tmp_main tmp_main_body tmp_citations tmp_out
+  mapfile -d '' -t quick_files < <(find "$sources_root" -path '*/quick/*.md' -type f -print0 2>/dev/null || true)
+  [[ ${#quick_files[@]} -gt 0 ]] || return 0
+
+  for quickfile in "${quick_files[@]}"; do
+    author_dir="$(dirname "$(dirname "$quickfile")")"
+    slug="$(basename "$quickfile" .md)"
+    main_file="$author_dir/$slug.md"
+
+    tmp_quick="$(mktemp)"
+    tmp_main="$(mktemp)"
+    tmp_main_body="$(mktemp)"
+    tmp_citations="$(mktemp)"
+    tmp_out="$(mktemp)"
+
+    wiki_markdown_body_only "$quickfile" >"$tmp_quick"
+
+    if [[ -f "$main_file" ]]; then
+      wiki_markdown_body_only "$main_file" >"$tmp_main"
+      wiki_markdown_split_citations "$tmp_main" "$tmp_main_body" "$tmp_citations"
+      if [[ ! -s "$tmp_citations" ]]; then
+        printf '%s\n' '## Citations' '' 'No citations found.' >"$tmp_citations"
+      fi
+
+      {
+        if wiki_markdown_frontmatter_only "$main_file" | grep -q .; then
+          wiki_markdown_frontmatter_only "$main_file"
+        else
+          printf '%s\n' '---' 'type: source' 'status: draft' '---'
+        fi
+        echo
+        echo '## Quick summary'
+        echo
+        cat "$tmp_quick"
+        echo
+        if [[ -s "$tmp_main_body" ]]; then
+          echo '---'
+          echo
+          cat "$tmp_main_body"
+        fi
+        cat "$tmp_citations"
+      } >"$tmp_out"
+      mv "$tmp_out" "$main_file"
+    else
+      {
+        if wiki_markdown_frontmatter_only "$quickfile" | grep -q .; then
+          wiki_markdown_frontmatter_only "$quickfile"
+        else
+          printf '%s\n' '---' 'type: source' 'status: draft' '---'
+        fi
+        echo
+        echo '## Quick summary'
+        echo
+        cat "$tmp_quick"
+        echo
+        printf '%s\n' '## Citations' '' 'No citations found.'
+      } >"$tmp_out"
+      mv "$tmp_out" "$main_file"
+    fi
+
+    rm -f "$tmp_quick" "$tmp_main" "$tmp_main_body" "$tmp_citations" "$tmp_out"
+    rm -f "$quickfile"
+  done
+
+  find "$sources_root" -type d -name quick -empty -delete 2>/dev/null || true
+}
+
 wiki_migrate_mechanical_playbook() {
   local wiki_root="${1%/}"
   local playbook_basename="$2"
@@ -247,6 +364,10 @@ wiki_migrate_mechanical_playbook() {
     1.2-to-1.3.md)
       wiki_migrate_additive_sync "$wiki_root" "$scaffold_dir" false
       wiki_scaffold_write "$wiki_root" "1.3"
+      ;;
+    1.3-to-1.4.md)
+      wiki_migrate_merge_quick_sources "$wiki_root"
+      wiki_scaffold_write "$wiki_root" "1.4"
       ;;
     *)
       echo "wiki_migrate_mechanical_playbook: unknown $playbook_basename" >&2

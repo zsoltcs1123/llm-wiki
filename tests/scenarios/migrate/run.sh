@@ -33,9 +33,9 @@ assert_eq "partial scaffold" "1.2" "$(wiki_scaffold_read "$PARTIAL")"
 echo
 echo "playbook chain"
 CHAIN="$(wiki_migrate_plan_playbook_names "1.0" "$TARGET" "$MIGRATIONS_DIR")"
-assert_eq "chain from 1.0" "1.0-to-1.1.md,1.1-to-1.2.md,1.2-to-1.3.md" "$CHAIN"
+assert_eq "chain from 1.0" "1.0-to-1.1.md,1.1-to-1.2.md,1.2-to-1.3.md,1.3-to-1.4.md" "$CHAIN"
 
-for pb in 1.0-to-1.1.md 1.1-to-1.2.md 1.2-to-1.3.md; do
+for pb in 1.0-to-1.1.md 1.1-to-1.2.md 1.2-to-1.3.md 1.3-to-1.4.md; do
   assert_eq "playbook exists: $pb" "true" "$([[ -f "$MIGRATIONS_DIR/$pb" ]] && echo true || echo false)"
 done
 
@@ -68,6 +68,16 @@ wiki_index_apply_hub_policy "$HUB_TMP/wiki/index.md"
 assert_eq "hub policy removes Sources heading" "false" "$(grep -q '^## Sources' "$HUB_TMP/wiki/index.md" && echo true || echo false)"
 assert_eq "hub policy has Concepts" "true" "$(grep -q '^## Concepts' "$HUB_TMP/wiki/index.md" && echo true || echo false)"
 assert_eq "hub policy has Reference Corpora" "true" "$(grep -q '^## Reference Corpora' "$HUB_TMP/wiki/index.md" && echo true || echo false)"
+
+echo
+echo "merge quick sources 1.3 to 1.4"
+QUICK_TMP="$(mktemp -d)"
+cp -R "$TESTS_DIR/fixtures/migrate/quick-1.3/." "$QUICK_TMP/"
+wiki_migrate_mechanical_playbook "$QUICK_TMP" "1.3-to-1.4.md" "$SCAFFOLD_DIR"
+assert_eq "quick file removed" "false" "$([[ -f "$QUICK_TMP/wiki/sources/acme/quick/example.md" ]] && echo true || echo false)"
+assert_eq "quick dir removed" "false" "$([[ -d "$QUICK_TMP/wiki/sources/acme/quick" ]] && echo true || echo false)"
+assert_eq "merged quick heading" "true" "$(grep -q '^## Quick summary' "$QUICK_TMP/wiki/sources/acme/example.md" && echo true || echo false)"
+assert_eq "citations section last" "## Citations" "$(grep '^## ' "$QUICK_TMP/wiki/sources/acme/example.md" | tail -1 | tr -d '\r')"
 
 echo
 echo "full mechanical apply"

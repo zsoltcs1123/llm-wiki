@@ -11,7 +11,7 @@ System development priorities for the LLM Wiki project. Not a wiki artifact.
 - `wiki/log.md` as operational history within each wiki
 - operate layer shipped as routed `wiki` skill (init, migrate, ingest, query, lint, discard)
 - consumer migrate (`scaffold`, playbooks, `make test`)
-- vendored `summarize` and `quick-summarize` skills for ingest
+- vendored `summarize`, `quick-summarize`, and `citations` skills for ingest
 - `_scaffold/` canonical skeleton for `/wiki init`
 - design principles and this roadmap in the dev repo
 - Karpathy gist attribution and lineage documented

@@ -42,14 +42,13 @@ Decision rule:
 - normal-sized sources → `raw/sources/` + full ingest into `wiki/sources/{author}/`
 - corpus-scale material → `raw/reference/{corpus-slug}/` + stub ingest into `wiki/sources/reference/{corpus-slug}.md`
 
-Reference corpus stubs use `type: source` and `status: reference-corpus`. A stub should include the corpus title, scope, and file list or TOC pointers back into `raw/reference/{corpus-slug}/`. Do not run `summarize` or `quick-summarize` for reference corpora unless the user explicitly asks for full promotion.
+Reference corpus stubs use `type: source` and `status: reference-corpus`. A stub should include the corpus title, scope, and file list or TOC pointers back into `raw/reference/{corpus-slug}/`. Do not run `summarize`, `quick-summarize`, or `citations` for reference corpora unless the user explicitly asks for full promotion.
 
 ### `wiki/`
 
 Maintained knowledge base owned by the LLM.
 
-- `wiki/sources/{author}/`: compiled source pages, grouped by author to mirror `raw/sources/`
-- `wiki/sources/{author}/quick/`: compact quick summaries of source pages for that author
+- `wiki/sources/{author}/`: source pages by author (mirror `raw/sources/`); each file is quick + full summary + citations per [source-page.md](source-page.md).
 - `wiki/sources/reference/`: lightweight stubs for `raw/reference/` corpora
 - `wiki/concepts/`: durable ideas that accumulate evidence across sources
 - `wiki/entities/`: recurring named actors, tools, companies, frameworks, people
